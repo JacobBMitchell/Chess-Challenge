@@ -1,6 +1,7 @@
 ﻿using ChessChallenge.API;
 using Raylib_cs;
 using System;
+using System.Linq;
 
 public class MyBot : IChessBot
 {
@@ -27,8 +28,8 @@ public class MyBot : IChessBot
 
         //EVALUATE BOARD POSITION
 
-        int whiteValue = getMaterial(true, board, pieceValues, pieceTypes);
-        int blackValue = getMaterial(false, board, pieceValues, pieceTypes);
+        int whiteValue = GetMaterial(true, board, pieceValues, pieceTypes);
+        int blackValue = GetMaterial(false, board, pieceValues, pieceTypes);
         bool isWinning = (whiteValue > blackValue) == isWhite;
 
         foreach (var move_score in movesAndScores)
@@ -89,11 +90,11 @@ public class MyBot : IChessBot
     }
 
     //get value of board per side
-    private int getMaterial(bool isWhite, Board board, int[] pieceValues, PieceType[] pieceTypes)
+    private static int GetMaterial(bool isWhite, Board board, int[] pieceValues, PieceType[] pieceTypes)
     {
         int material = 0; 
         //get score of all pieces -the king
-        for (int i = 0; i < pieceValues.Length-1; i++)
+        for (int i = 1; i < pieceValues.Length-1; i++)
         {
             PieceList pieces = board.GetPieceList(pieceTypes[i], isWhite);
             material += pieceValues[i]*pieces.Count;
@@ -102,7 +103,7 @@ public class MyBot : IChessBot
     }
 
     // Test if this move gives checkmate
-    bool MoveIsCheckmate(Board board, Move move)
+    private static bool  MoveIsCheckmate(Board board, Move move)
     {
         board.MakeMove(move);
         bool isMate = board.IsInCheckmate();
