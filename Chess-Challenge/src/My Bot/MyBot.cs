@@ -1,7 +1,6 @@
 ﻿using ChessChallenge.API;
 using Raylib_cs;
 using System;
-using System.Linq;
 
 public class MyBot : IChessBot
 {
